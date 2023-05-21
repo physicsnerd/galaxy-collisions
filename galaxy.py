@@ -6,6 +6,8 @@ Classes:
 Methods:
     rand_type: returns random galaxy type.
     gravity_force: calculates force between two galaxies.
+    simulate_initialize: generates galaxies for simulation.
+    elliptical_ratio: calculates ratio of elliptical to visible galaxies.
 """
 
 import random
