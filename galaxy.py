@@ -53,7 +53,7 @@ class Galaxy:
         id_ (int): convenient way to ID a specific galaxy.
         x_pos (float): x component of position.
         y_pos (float): y component of position.
-        mass (int): mass of galaxy.
+        mass (np.float64): mass of galaxy.
         gal_type (string): either spiral or elliptical.
         v_x (float): x component of velocity.
         v_y (float): y component of velocity.
@@ -222,7 +222,7 @@ def simulate_initialize(universe_size, galaxy_number, initial_type_ratio):
 
     x_positions = np.random.randint(0, universe_size, galaxy_number)
     y_positions = np.random.randint(0, universe_size, galaxy_number)
-    masses = np.random.randint(100, 1000, galaxy_number)
+    masses = np.random.randint(1, 100, galaxy_number).astype(np.float64)
 
     for i, x_pos in enumerate(x_positions):
         gal_type = rand_type(initial_type_ratio)
@@ -230,12 +230,11 @@ def simulate_initialize(universe_size, galaxy_number, initial_type_ratio):
 
     return galaxies
 
-def elliptical_ratio(galaxy_list, universe_size):
+def elliptical_ratio(galaxy_list):
     """Finds ratio of elliptical galaxies to total visible galaxies.
 
     Args:
         galaxy_list (list): list of Galaxy objects.
-        universe_size (int): size of visible universe.
 
     Returns:
         float: ratio of elliptical to total visible galaxies.
@@ -244,7 +243,7 @@ def elliptical_ratio(galaxy_list, universe_size):
     elliptical_galaxies = 0
 
     for galaxy in galaxy_list:
-        if galaxy.visible(universe_size):
+        if galaxy.in_visible_universe and galaxy.active:
             total_visible_galaxies += 1
             if galaxy.gal_type == 'elliptical':
                 elliptical_galaxies += 1
