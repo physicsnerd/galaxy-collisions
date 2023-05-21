@@ -6,9 +6,9 @@ import galaxy as g
 UNIVERSE_SIZE = 1000
 GALAXY_NUMBER = 50
 INITIAL_TYPE_RATIO = 0.0
-TIME_STEP = 0.05
+TIME_STEP = 0.02
 TIME_MAX = 5
-DOT_SCALE = 20
+DOT_SCALE = 10
 time = 0
 
 galaxies = g.simulate_initialize(UNIVERSE_SIZE, GALAXY_NUMBER, INITIAL_TYPE_RATIO)
@@ -45,7 +45,7 @@ def update(frame):
             t_positions_c.append(galaxy.color)
             t_positions_m.append(galaxy.mass / DOT_SCALE)
 
-    elliptical_fraction = g.elliptical_ratio(galaxies, UNIVERSE_SIZE)
+    elliptical_fraction = g.elliptical_ratio(galaxies)
 
     scatter.set_offsets(np.column_stack((t_positions_x, t_positions_y)))
     scatter.set_color(t_positions_c)
