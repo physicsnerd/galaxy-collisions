@@ -1,4 +1,5 @@
 import unittest
+import numpy as np
 import galaxy as g
 
 class GalaxyTests(unittest.TestCase):
@@ -68,7 +69,7 @@ class GalaxyTests(unittest.TestCase):
         self.assertGreaterEqual(ratio, 0)
         self.assertLessEqual(ratio, 1)
 
-    def test_elliptical_ratio_example(self):
+    def test_elliptical_ratio_example(self):#add more tests of elliptical ratio!!
         # Test elliptical_ratio function
 
         # Create a list of galaxies
@@ -117,13 +118,41 @@ class GalaxyTests(unittest.TestCase):
         self.assertEqual(dist, 5)
 
     def test_angle(self):
-        galaxy_one = g.Galaxy(0, 3, 0, 10, 'spiral')
+        # Test angle function
+
+        # Test case 1: Positive x and y coordinates
+        galaxy_one = g.Galaxy(0, 3, 0, 10, 'elliptical')
         galaxy_two = g.Galaxy(0, 0, 4, 10, 'elliptical')
+        expected_angle1 = np.deg2rad(53.130102)
 
-        angle = galaxy_one.angle(galaxy_two)
-        true_angle = 0.64
+        # Call the angle function
+        angle1 = galaxy_one.angle(galaxy_two)
 
-        self.assertAlmostEqual(angle, true_angle, places=4)
+        # Check if the calculated angle matches the expected angle
+        self.assertAlmostEqual(angle1, expected_angle1, places=4)
+
+        # Test case 2: Negative x and y coordinates
+        x2, y2 = -5, -12
+        galaxy_three = g.Galaxy(0, -5, 0, 10, 'elliptical')
+        galaxy_four = g.Galaxy(0, 0, -12, 10, 'spiral')
+        expected_angle2 = np.deg2rad(-67.380136)
+
+        # Call the angle function
+        angle2 = galaxy_three.angle(galaxy_four)
+
+        # Check if the calculated angle matches the expected angle
+        self.assertAlmostEqual(angle2, expected_angle2, places=4)
+
+        # Test case 3: Zero x and y coordinates
+        galaxy_five = g.Galaxy(0, 0, 0, 10, 'spiral')
+        galaxy_six = g.Galaxy(0, 0, 0, 10, 'spiral')
+        expected_angle3 = 0
+
+        # Call the angle function
+        angle3 = galaxy_five.angle(galaxy_six)
+
+        # Check if the calculated angle matches the expected angle
+        self.assertAlmostEqual(angle3, expected_angle3, places=4)
     
     def test_visible_true(self):
         galaxy = g.Galaxy(0, 50, 50, 10, 'spiral')
@@ -146,7 +175,24 @@ class GalaxyTests(unittest.TestCase):
 
         self.assertFalse(is_visible)
     
-    def test_collide(self):
+    def test_collide_bools(self):
+        # Test collide function
+
+        # Test case 1: Colliding galaxies
+        galaxy1 = g.Galaxy(1, 0, 0, 1, 'spiral')
+        galaxy2 = g.Galaxy(2, 1, 1, 1, 'spiral')
+
+        # Call the collide function
+        galaxy1.collide(galaxy2)
+
+        # Check if the collided galaxies are no longer active
+        self.assertTrue(galaxy1.active)
+        self.assertFalse(galaxy2.active)
+        
+        # Check the resulting galaxy is elliptical
+        self.assertEqual(galaxy1.gal_type, 'elliptical')
+    
+    def test_collide_momentum(self):
         return
     
     def test_time_update(self):
