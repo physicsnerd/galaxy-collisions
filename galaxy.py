@@ -129,13 +129,13 @@ class Galaxy:
         return other_galaxy.y_pos - self.y_pos
 
     def angle(self, other_galaxy):
-        """Angle between self and another galaxy.
+        """Angle between self and another galaxy relative to horizontal.
 
         Args:
             other_galaxy (Galaxy): other galaxy of interest.
 
         Returns:
-            float: signed angle between galaxies.
+            float: signed angle between galaxies relative to horizontal.
         """
         x_dist = self.distance_x(other_galaxy)
         y_dist = self.distance_y(other_galaxy)
