@@ -91,6 +91,66 @@ class GalaxyTests(unittest.TestCase):
 
         # Check if the calculated ratio matches the expected ratio
         self.assertAlmostEqual(ratio, expected_ratio, places=4)
+    
+    def test_distance_x(self):
+        galaxy_one = g.Galaxy(0, 0, 0, 10, 'spiral')
+        galaxy_two = g.Galaxy(0, 20, 10, 10, 'elliptical')
+
+        x_dist = galaxy_one.distance_x(galaxy_two)
+
+        self.assertEqual(x_dist, 20)
+    
+    def test_distance_y(self):
+        galaxy_one = g.Galaxy(0, 0, 0, 10, 'spiral')
+        galaxy_two = g.Galaxy(0, 20, 20, 10, 'elliptical')
+
+        y_dist = galaxy_one.distance_y(galaxy_two)
+
+        self.assertEqual(y_dist, 20)
+
+    def test_distance(self):
+        galaxy_one = g.Galaxy(0, 3, 0, 10, 'spiral')
+        galaxy_two = g.Galaxy(0, 0, 4, 10, 'elliptical')
+
+        dist = galaxy_one.distance(galaxy_two)
+
+        self.assertEqual(dist, 5)
+
+    def test_angle(self):
+        galaxy_one = g.Galaxy(0, 3, 0, 10, 'spiral')
+        galaxy_two = g.Galaxy(0, 0, 4, 10, 'elliptical')
+
+        angle = galaxy_one.angle(galaxy_two)
+        true_angle = 0.64
+
+        self.assertAlmostEqual(angle, true_angle, places=4)
+    
+    def test_visible_true(self):
+        galaxy = g.Galaxy(0, 50, 50, 10, 'spiral')
+        universe_size = 1000
+        is_visible = galaxy.visible(universe_size)
+
+        self.assertTrue(is_visible)
+    
+    def test_visible_not_true_negative(self):
+        galaxy = g.Galaxy(0, -100, -20, 10, 'spiral')
+        universe_size = 1000
+        is_visible = galaxy.visible(universe_size)
+
+        self.assertFalse(is_visible)
+    
+    def test_visible_not_true_positive(self):
+        galaxy = g.Galaxy(0, 1250, 100, 10, 'spiral')
+        universe_size = 1000
+        is_visible = galaxy.visible(universe_size)
+
+        self.assertFalse(is_visible)
+    
+    def test_collide(self):
+        return
+    
+    def test_time_update(self):
+        return
 
 if __name__ == '__main__':
     unittest.main()
