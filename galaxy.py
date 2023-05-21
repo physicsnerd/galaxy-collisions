@@ -161,7 +161,9 @@ class Galaxy:
         Returns:
             bool: whether or not the galaxy has moved outside observable universe.
         """
-        if self.x_pos <= universe_size and self.y_pos <= universe_size:
+        less_than_upper_bound = (self.x_pos <= universe_size) and (self.y_pos <= universe_size)
+        greater_than_lower_bound = (self.x_pos >= 0) and (self.y_pos >= 0)
+        if less_than_upper_bound and greater_than_lower_bound:
             return True
         return False
 
