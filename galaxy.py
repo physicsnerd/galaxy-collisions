@@ -203,3 +203,48 @@ class Galaxy:
             elif (galaxy == self) and (galaxy.active):
                 self.x_pos += self.v_x * time_step
                 self.y_pos += self.v_y * time_step
+
+def simulate_initialize(universe_size, galaxy_number, initial_type_ratio):
+    """Creates 
+
+    Args:
+        universe_size (int): size of observable universe.
+        galaxy_number (int): number of galaxies to simulate.
+        initial_type_ratio (float): decimal between 0 and 1 giving initial ratio
+            of elliptical to spiral galaxies.
+
+    Returns:
+        list: list of Galaxy objects that were generated.
+    """
+    galaxies = []
+
+    x_positions = np.random.randint(0, universe_size, galaxy_number)
+    y_positions = np.random.randint(0, universe_size, galaxy_number)
+    masses = np.random.randint(100, 1000, galaxy_number)
+
+    for i, x_pos in enumerate(x_positions):
+        gal_type = rand_type(initial_type_ratio)
+        galaxies.append(Galaxy(i, x_pos, y_positions[i], masses[i], gal_type))
+
+    return galaxies
+
+def elliptical_ratio(galaxy_list, universe_size):
+    """Finds ratio of elliptical galaxies to total visible galaxies.
+
+    Args:
+        galaxy_list (list): list of Galaxy objects.
+        universe_size (int): size of visible universe.
+
+    Returns:
+        float: ratio of elliptical to total visible galaxies.
+    """
+    total_visible_galaxies = 0
+    elliptical_galaxies = 0
+
+    for galaxy in galaxy_list:
+        if galaxy.visible(universe_size):
+            total_visible_galaxies += 1
+            if galaxy.gal_type == 'elliptical':
+                elliptical_galaxies += 1
+
+    return round(elliptical_galaxies/total_visible_galaxies, 4)
